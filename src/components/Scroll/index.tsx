@@ -60,7 +60,7 @@ interface ScrollProps {
 // }
 
 const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
-  const [bScroll, setBScroll] = useState();
+  const [bScroll, setBScroll] = useState<any>(null);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 

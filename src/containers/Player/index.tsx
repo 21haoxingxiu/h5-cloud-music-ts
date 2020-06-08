@@ -12,7 +12,7 @@ import {
   LyricWrapper,
 } from './styles';
 import { CSSTransition } from 'react-transition-group';
-import ProgressCircle from 'components/ProgressCircle';
+import ProgressCircle from 'components/progressCircle';
 import {
   changePlayingState,
   // changeFullScreen,

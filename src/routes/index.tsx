@@ -20,7 +20,7 @@ const routes: RouteConfig[] = [
             path: '/user/login',
             exact: true,
             key: 'login',
-            component: Login,
+            component: (Login as any),
           },
         ],
       },
