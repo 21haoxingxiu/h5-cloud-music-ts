@@ -1,20 +1,21 @@
+/*
+ * @Description: new file
+ * @Autor: zhan
+ * @Date: 2020-06-08 21:50:10
+ * @LastEditors: zhan
+ * @LastEditTime: 2020-06-09 22:32:23
+ */ 
 import { combineReducers } from 'redux';
 import recommendReducer from '../containers/Recommend/store/reducer';
-// import { reducer as singersReducer } from '../application/Singers/store/index';
-// import { reducer as rankReducer } from '../application/Rank/store/index';
 import albumReducer from '../containers/Album/store/reducer';
-// import { reducer as singerInfoReducer } from '../application/Singer/store/index';
 import playerReducer from '../containers/Player/store/reducer';
-// import { reducer as searchReducer } from '../application/Search/store/index';
 import userReducer from '../containers/User/Login/store/reducer';
+import singereducer from '../containers/Singers/store/reducer'
 
 export const rootReducer = combineReducers({
   recommend: recommendReducer,
-  // singers: singersReducer,
-  // rank: rankReducer,
   album: albumReducer,
-  // singerInfo: singerInfoReducer,
   player: playerReducer,
-  // search: searchReducer,
-  user: userReducer
+  user: userReducer,
+  singers: singereducer
 });

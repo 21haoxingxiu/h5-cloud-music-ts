@@ -5,7 +5,7 @@ import BlankLayout from 'layouts/BlankLayout';
 import HomeLayout from 'layouts/HomeLayout';
 
 import Recommend from 'containers/Recommend';
-import Singer from 'containers/Singer';
+import Singer from 'containers/Singers';
 import Album from 'containers/Album';
 import { RouteConfig } from 'react-router-config';
 
