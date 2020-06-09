@@ -5,6 +5,7 @@ import BlankLayout from 'layouts/BlankLayout';
 import HomeLayout from 'layouts/HomeLayout';
 
 import Recommend from 'containers/Recommend';
+import Singer from 'containers/Singer';
 import Album from 'containers/Album';
 import { RouteConfig } from 'react-router-config';
 
@@ -45,6 +46,11 @@ const routes: RouteConfig[] = [
                 component: Album,
               },
             ],
+          },
+          {
+            path: '/singers',
+            key: 'singers',
+            component: Singer
           },
         ],
       },
