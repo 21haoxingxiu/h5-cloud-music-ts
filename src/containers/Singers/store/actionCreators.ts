@@ -24,6 +24,16 @@ export interface changeEnterLoadingType {
   data: boolean
 }
 
+export const changeCategory = (data:string) => ({
+  type: actionTypes.CHANGE_CATOGORY,
+  data
+});
+
+export const changeAlpha = (data:string) => ({
+  type: actionTypes.CHANGE_ALPHA,
+  data
+});
+
 export const changeSingerList = (data:any):changeSingerListType => ({
   type: actionTypes.CHANGE_SINGER_LIST,
   data
@@ -53,7 +63,6 @@ export const changePullUpLoading = (data:boolean) => ({
 });
 
 
-//第一次加载热门歌手
 export const getHotSingerList = () => {
   return (dispatch:any) => {
     getHotSingerListRequest(0).then((res:any) => {
@@ -61,50 +70,57 @@ export const getHotSingerList = () => {
       dispatch(changeSingerList(data));
       dispatch(changeEnterLoading(false));
       dispatch(changePullDownLoading(false));
+      dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('热门歌手数据获取失败');
     })
   }
 };
 
-//加载更多热门歌手
 export const refreshMoreHotSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const pageCount = getState().pageCount;
+    const offset = getState().pageCount;
     const singerList = getState().singerList;
-    getHotSingerListRequest(pageCount).then((res:any) => {
+    getHotSingerListRequest(offset).then((res:any) => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
       dispatch(changePullUpLoading(false));
+      dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('热门歌手数据获取失败');
     });
   }
 };
 
-//第一次加载对应类别的歌手
-export const getSingerList = (category:string, alpha:string) => {
-  return (dispatch:any) => {
-    getSingerListRequest(category, alpha, 0).then((res:any) => {
+export const getSingerList = () => {
+  return (dispatch:any, getState:any) => {
+    const offset = getState().pageCount;
+    const category = getState().category;
+    const alpha = getState().alpha;
+    getSingerListRequest(category, alpha, offset).then((res:any) => {
       const data = res.artists;
       dispatch(changeSingerList(data));
       dispatch(changeEnterLoading(false));
       dispatch(changePullDownLoading(false));
+      dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('歌手数据获取失败');
     });
   }
 };
 
-//加载更多歌手
-export const refreshMoreSingerList = (category:string, alpha:string) => {
+
+export const refreshMoreSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const pageCount = getState().pageCount;
+    const offset = getState().pageCount;
+    const category = getState().category;
+    const alpha = getState().alpha;
     const singerList = getState().singerList;
-    getSingerListRequest(category, alpha, pageCount).then((res:any) => {
+    getSingerListRequest(category, alpha, offset).then((res:any) => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
       dispatch(changePullUpLoading(false));
+      dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('歌手数据获取失败');
     });

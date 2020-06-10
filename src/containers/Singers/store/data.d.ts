@@ -1,15 +1,19 @@
+/*
+ * @Description: new file
+ * @Autor: zhan
+ * @Date: 2020-06-10 08:44:33
+ * @LastEditors: zhan
+ * @LastEditTime: 2020-06-10 08:46:39
+ */ 
 export interface singerType {
-  imageUrl: string;
-  url: string;
-}
-export interface recommendType {
-  name: string;
+  accountId: string;
   picUrl: string;
-  trackCount: number;
-  playCount: number;
+  name: string;
 }
 
 export interface SingerStateType {
+  category: string,
+  alpha: string,
   singerList: singerType[],
   enterLoading: boolean,     //控制进场Loading
   pullUpLoading: boolean,   //控制上拉加载动画

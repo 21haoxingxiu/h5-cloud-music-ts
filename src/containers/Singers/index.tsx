@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Horizen from '../../components/HorizenItem';
+import { SingerStateType } from './store/data'
 import { categoryTypes, alphaTypes } from '../../api/config';
 import { 
   NavContainer,
@@ -7,80 +8,72 @@ import {
   List,
   ListItem
 } from "./style";
-
+import {
+  RouteConfig,
+} from 'react-router-config';
 import { 
   getSingerList, 
   getHotSingerList, 
   changeEnterLoading, 
   changePageCount, 
+  changeCategory,
+  changeAlpha,
   refreshMoreSingerList, 
   changePullUpLoading, 
   changePullDownLoading, 
-  refreshMoreHotSingerList 
+  refreshMoreHotSingerList
 } from './store/actionCreators';
 
 import {connect} from 'react-redux';
 import Scroll from 'components/Scroll';
 
-const mapStateToProps = (state:any) => ({
-  singerList: state.singers.singerList,
-  enterLoading: state.singers.enterLoading,
-  pullUpLoading: state.singers.pullUpLoading,
-  pullDownLoading: state.singers.pullDownLoading,
-  pageCount: state.singers.pageCount
-});
 
-const mapDispatchToProps = (dispatch:any) => {
-  return {
-    getHotSingerDispatch() {
-      dispatch(getHotSingerList());
-    },
-    updateDispatch(category:string, alpha:string) {
-      dispatch(changePageCount(0));//由于改变了分类，所以pageCount清零
-      dispatch(changeEnterLoading(true));//loading，现在实现控制逻辑，效果实现放到下一节，后面的loading同理
-      dispatch(getSingerList(category, alpha));
-    },
-    // 滑到最底部刷新部分的处理
-    pullUpRefreshDispatch(category:string, alpha:string, hot:any, count: number) {
-      dispatch(changePullUpLoading(true));
-      dispatch(changePageCount(count+1));
-      if(hot){
-        dispatch(refreshMoreHotSingerList());
-      } else {
-        dispatch(refreshMoreSingerList(category, alpha));
-      }
-    },
-    //顶部下拉刷新
-    pullDownRefreshDispatch(category:string, alpha:string) {
-      dispatch(changePullDownLoading(true));
-      dispatch(changePageCount(0));//属于重新获取数据
-      if(category === '' && alpha === ''){
-        dispatch(getHotSingerList());
-      } else {
-        dispatch(getSingerList(category, alpha));
-      }
-    }
-  }
-};
+interface singerTypeProp extends SingerStateType,RouteConfig {
+  getHotSingerDispatch: () => void
+  updateCategoryDispatch: (category:string,) => void
+  updateAlphaDispatch: (Alpha:string,) => void
+  updateADispatch: (category:string,) => void
+  pullUpRefreshDispatch: (category:string, alpha:string, isCat: boolean, pageCount: number) => void
+  pullDownRefreshDispatch: (category:string, alpha:string) => void
+}
 
 
-function Singers () {
+function Singers (props: singerTypeProp) {
+  const scrollRef = useRef(null);
   const [ category, setCategory ] = useState('')
   const [ alpha, setAlpha ] = useState('')
 
+  const { getHotSingerDispatch, updateCategoryDispatch, updateAlphaDispatch,  pullUpRefreshDispatch, pullDownRefreshDispatch } = props
+  const { singerList, pageCount, pullUpLoading, pullDownLoading } = props
+
+  useEffect(() => {
+    if(!singerList.length && !category && !alpha) {
+      getHotSingerDispatch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+
   const handleUpdateCategory = (val:string):void => {
+    if(category === val) return
+    updateCategoryDispatch(val);
+    // scrollRef.current!.refresh();    
     setCategory(val)
   }
   const handleUpdateAlpha = (val:string):void => {
+    if(alpha === val) return
+    updateAlphaDispatch(val);
+    // scrollRef.current!.refresh();    
     setAlpha(val)
-  }
-  const singerList = [1, 2,3, 4,5,6,7,8,9,10,11,12].map (item => {
-    return {
-      picUrl: "https://p2.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg",
-      name: "隔壁老樊",
-      accountId: 277313426,
-    }
-  });  
+  }  
+  const handlePullUp = () => {
+    pullUpRefreshDispatch (category, alpha, category === '', pageCount);
+  };
+  
+  const handlePullDown = () => {
+    pullDownRefreshDispatch (category, alpha);
+  };  
+
 
 // 渲染函数，返回歌手列表
 const renderSingerList = () => {
@@ -109,12 +102,67 @@ const renderSingerList = () => {
         <Horizen list={alphaTypes} title={"首字母:"} oldVal={alpha} handleClick={handleUpdateAlpha} ></Horizen>
       </NavContainer>      
       <ListContainer>
-        <Scroll>
+        <Scroll
+          pullUp={ handlePullUp }
+          ref={ scrollRef }
+          pullDown = { handlePullDown }
+          pullUpLoading = { pullUpLoading }
+          pullDownLoading = { pullDownLoading }
+        >
           { renderSingerList () }
         </Scroll>
       </ListContainer>      
     </div>
   )
 }
+
+const mapStateToProps = (state:any) => ({
+  singerList: state.singers.singerList,
+  enterLoading: state.singers.enterLoading,
+  pullUpLoading: state.singers.pullUpLoading,
+  pullDownLoading: state.singers.pullDownLoading,
+  pageCount: state.singers.pageCount
+});
+
+const mapDispatchToProps = (dispatch:any) => {
+  return {
+    getHotSingerDispatch() {
+      dispatch(getHotSingerList());
+    },
+    updateCategoryDispatch(category:string) {
+      dispatch(changeCategory(category));
+      dispatch(getSingerList());
+    },
+    updateAlphaDispatch(newVal:string) {
+      dispatch(changeAlpha(newVal));
+      dispatch(getSingerList());
+    },    
+    updateDispatch(category:string, alpha:string) {
+      dispatch(changePageCount(0));
+      dispatch(changeEnterLoading(true)); 
+      dispatch(getSingerList());
+    },
+    // 滑到最底部刷新部分的处理
+    pullUpRefreshDispatch(category:string, alpha:string, hot:boolean, count: number) {
+      dispatch(changePullUpLoading(true));
+      dispatch(changePageCount(count+1));
+      if(hot){
+        dispatch(refreshMoreHotSingerList());
+      } else {
+        dispatch(refreshMoreSingerList());
+      }
+    },
+    //顶部下拉刷新
+    pullDownRefreshDispatch(category:string, alpha:string) {
+      dispatch(changePullDownLoading(true));
+      dispatch(changePageCount(0));//属于重新获取数据
+      if(category === '' && alpha === ''){
+        dispatch(getHotSingerList());
+      } else {
+        dispatch(getSingerList());
+      }
+    }
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Singers));

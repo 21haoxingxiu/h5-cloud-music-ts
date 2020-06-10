@@ -9,7 +9,6 @@ import BScroll from 'better-scroll';
 import styled from 'styled-components';
 import Loading from 'components/Loading/index';
 import Loading2 from 'components/Loading/v2';
-// import { debounce } from '"utils/utils";'
 import debounce from 'debounce';
 
 const ScrollContainer = styled.div`
@@ -53,11 +52,6 @@ interface ScrollProps {
   children?: React.ReactNode;
 }
 
-// export interface ScrollRef {
-//   refresh(): void;
-//   scrollTo(x: number, y: number): void;
-//   getBScroll(): HTMLDivElement;
-// }
 
 const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
   const [bScroll, setBScroll] = useState<any>(null);
