@@ -3,7 +3,7 @@
  * @Autor: zhan
  * @Date: 2020-06-09 21:40:33
  * @LastEditors: zhan
- * @LastEditTime: 2020-06-09 22:30:19
+ * @LastEditTime: 2020-06-10 21:33:14
  */ 
 import * as actionTypes from './constants';
 import {
@@ -79,8 +79,8 @@ export const getHotSingerList = () => {
 
 export const refreshMoreHotSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const offset = getState().pageCount;
-    const singerList = getState().singerList;
+    const offset = getState().singers.pageCount;
+    const singerList = getState().singers.singerList;
     getHotSingerListRequest(offset).then((res:any) => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
@@ -94,9 +94,9 @@ export const refreshMoreHotSingerList = () => {
 
 export const getSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const offset = getState().pageCount;
-    const category = getState().category;
-    const alpha = getState().alpha;
+    const offset = getState().singers.pageCount;
+    const category = getState().singers.category;
+    const alpha = getState().singers.alpha;
     getSingerListRequest(category, alpha, offset).then((res:any) => {
       const data = res.artists;
       dispatch(changeSingerList(data));
@@ -112,10 +112,10 @@ export const getSingerList = () => {
 
 export const refreshMoreSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const offset = getState().pageCount;
-    const category = getState().category;
-    const alpha = getState().alpha;
-    const singerList = getState().singerList;
+    const offset = getState().singers.pageCount;
+    const category = getState().singers.category;
+    const alpha = getState().singers.alpha;
+    const singerList = getState().singers.singerList;
     getSingerListRequest(category, alpha, offset).then((res:any) => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
