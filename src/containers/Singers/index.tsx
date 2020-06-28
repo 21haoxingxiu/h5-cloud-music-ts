@@ -43,8 +43,10 @@ function Singers (props: singerTypeProp) {
   const [ category, setCategory ] = useState('')
   const [ alpha, setAlpha ] = useState('')
 
-  const { getHotSingerDispatch, updateCategoryDispatch, updateAlphaDispatch,  pullUpRefreshDispatch, pullDownRefreshDispatch } = props
+  
   const { singerList, pageCount, pullUpLoading, pullDownLoading } = props
+  const { getHotSingerDispatch, updateCategoryDispatch, updateAlphaDispatch,  pullUpRefreshDispatch, pullDownRefreshDispatch } = props
+  console.log('pageCount1', pageCount)
 
   useEffect(() => {
     if(!singerList.length && !category && !alpha) {
@@ -67,6 +69,7 @@ function Singers (props: singerTypeProp) {
     setAlpha(val)
   }  
   const handlePullUp = () => {
+    console.log('pageCount2', pageCount)
     pullUpRefreshDispatch (category, alpha, category === '', pageCount);
   };
   
@@ -144,6 +147,7 @@ const mapDispatchToProps = (dispatch:any) => {
     },
     // 滑到最底部刷新部分的处理
     pullUpRefreshDispatch(category:string, alpha:string, hot:boolean, count: number) {
+      console.log('pageCount3', count)
       dispatch(changePullUpLoading(true));
       dispatch(changePageCount(count+1));
       if(hot){

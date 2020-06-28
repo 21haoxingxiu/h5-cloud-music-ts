@@ -2,6 +2,7 @@ import React, {
   forwardRef,
   useState,
   useEffect,
+  useMemo,
   useRef,
   useImperativeHandle,
 } from 'react';
@@ -70,6 +71,13 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
 
   const { pullUp = () => { }, pullDown = () => { }, onScroll = null } = props;
 
+  let pullUpDebounce = useMemo (() => {
+    console.log('pullUp', pullUp)
+    return debounce (pullUp, 300)
+  }, [pullUp]);
+  // 千万注意，这里不能省略依赖，
+  // 不然拿到的始终是第一次 pullUp 函数的引用，相应的闭包作用域变量都是第一次的，产生闭包陷阱。下同。
+
   useEffect(() => {
     if (bScroll) return;
     const scroll = new BScroll(scrollContainerRef.current!, {
@@ -87,7 +95,7 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
       scroll.on('scrollEnd', () => {
         //判断是否滑动到了底部
         if (scroll.y <= scroll.maxScrollY + 100) {
-          pullUp();
+          pullUpDebounce();
         }
       });
     }

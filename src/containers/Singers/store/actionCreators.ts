@@ -3,7 +3,7 @@
  * @Autor: zhan
  * @Date: 2020-06-09 21:40:33
  * @LastEditors: zhan
- * @LastEditTime: 2020-06-10 21:33:14
+ * @LastEditTime: 2020-06-21 11:07:47
  */ 
 import * as actionTypes from './constants';
 import {
@@ -70,7 +70,7 @@ export const getHotSingerList = () => {
       dispatch(changeSingerList(data));
       dispatch(changeEnterLoading(false));
       dispatch(changePullDownLoading(false));
-      dispatch(changePageCount(data.length));
+      // dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('热门歌手数据获取失败');
     })
@@ -85,7 +85,6 @@ export const refreshMoreHotSingerList = () => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
       dispatch(changePullUpLoading(false));
-      dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('热门歌手数据获取失败');
     });
@@ -102,7 +101,6 @@ export const getSingerList = () => {
       dispatch(changeSingerList(data));
       dispatch(changeEnterLoading(false));
       dispatch(changePullDownLoading(false));
-      dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('歌手数据获取失败');
     });
@@ -120,7 +118,6 @@ export const refreshMoreSingerList = () => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
       dispatch(changePullUpLoading(false));
-      dispatch(changePageCount(data.length));
     }).catch(() => {
       console.log('歌手数据获取失败');
     });
