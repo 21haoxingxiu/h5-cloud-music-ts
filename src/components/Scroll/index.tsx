@@ -55,8 +55,8 @@ interface ScrollProps {
 
 
 const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
+  console.log('重新渲染scroll')
   const [bScroll, setBScroll] = useState<any>(null);
-
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -72,7 +72,6 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
   const { pullUp = () => { }, pullDown = () => { }, onScroll = null } = props;
 
   let pullUpDebounce = useMemo (() => {
-    console.log('pullUp', pullUp)
     return debounce (pullUp, 300)
   }, [pullUp]);
   // 千万注意，这里不能省略依赖，

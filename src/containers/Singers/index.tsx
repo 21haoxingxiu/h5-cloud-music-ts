@@ -38,14 +38,15 @@ interface singerTypeProp extends SingerStateType,RouteConfig {
 }
 
 
-function Singers (props: singerTypeProp) {
+const Singers = React.forwardRef((props:singerTypeProp, refs) => {
   const scrollRef = useRef(null);
   const [ category, setCategory ] = useState('')
   const [ alpha, setAlpha ] = useState('')
-
+  console.log('我更新了1')
   
   const { singerList, pageCount, pullUpLoading, pullDownLoading } = props
   const { getHotSingerDispatch, updateCategoryDispatch, updateAlphaDispatch,  pullUpRefreshDispatch, pullDownRefreshDispatch } = props
+
   console.log('pageCount1', pageCount)
 
   useEffect(() => {
@@ -54,7 +55,6 @@ function Singers (props: singerTypeProp) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
 
   const handleUpdateCategory = (val:string):void => {
     if(category === val) return
@@ -69,6 +69,8 @@ function Singers (props: singerTypeProp) {
     setAlpha(val)
   }  
   const handlePullUp = () => {
+    /* 这里形成了闭包 拿不到最新的值 */
+    /* props 的函数不是最新的 */
     console.log('pageCount2', pageCount)
     pullUpRefreshDispatch (category, alpha, category === '', pageCount);
   };
@@ -82,6 +84,7 @@ function Singers (props: singerTypeProp) {
 const renderSingerList = () => {
   return (
     <List>
+      <button onClick={ () => handlePullUp() }> + 2 + </button>
       {
         singerList.map ((item, index) => {
           return (
@@ -105,19 +108,21 @@ const renderSingerList = () => {
         <Horizen list={alphaTypes} title={"首字母:"} oldVal={alpha} handleClick={handleUpdateAlpha} ></Horizen>
       </NavContainer>      
       <ListContainer>
+        
         <Scroll
           pullUp={ handlePullUp }
           ref={ scrollRef }
           pullDown = { handlePullDown }
           pullUpLoading = { pullUpLoading }
           pullDownLoading = { pullDownLoading }
-        >
+        > 
+          <button onClick={ () => handlePullUp() }> + 1 + </button>
           { renderSingerList () }
         </Scroll>
       </ListContainer>      
     </div>
   )
-}
+})
 
 const mapStateToProps = (state:any) => ({
   singerList: state.singers.singerList,
@@ -147,9 +152,8 @@ const mapDispatchToProps = (dispatch:any) => {
     },
     // 滑到最底部刷新部分的处理
     pullUpRefreshDispatch(category:string, alpha:string, hot:boolean, count: number) {
-      console.log('pageCount3', count)
       dispatch(changePullUpLoading(true));
-      dispatch(changePageCount(count+1));
+      dispatch(changePageCount(count + 1));
       if(hot){
         dispatch(refreshMoreHotSingerList());
       } else {
