@@ -16,7 +16,7 @@ const defaultState: SingerStateType = {
   enterLoading: true,
   pullUpLoading: false,
   pullDownLoading: false,
-  pageCount: 0,
+  listOffset: 0,
 };
 
 export default (state = defaultState, action: any) => {
@@ -24,19 +24,19 @@ export default (state = defaultState, action: any) => {
     switch (action.type) {
       case actionTypes.CHANGE_ALPHA:
         draft.alpha = action.data;
-        draft.pageCount = 0;
+        draft.listOffset = 0;
         draft.enterLoading = true;
         break;
       case actionTypes.CHANGE_CATOGORY:
         draft.category = action.data;
-        draft.pageCount = 0;
+        draft.listOffset = 0;
         draft.enterLoading = true;
         break;
       case actionTypes.CHANGE_SINGER_LIST:
         draft.singerList = action.data;
         break;
-      case actionTypes.CHANGE_PAGE_COUNT:
-        draft.pageCount = action.data;
+      case actionTypes.CHANGE_LIST_OFFSET:
+        draft.listOffset = action.data;
         break;
       case actionTypes.CHANGE_ENTER_LOADING:
         draft.enterLoading = action.data;

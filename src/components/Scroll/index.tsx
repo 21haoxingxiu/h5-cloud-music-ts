@@ -55,7 +55,6 @@ interface ScrollProps {
 
 
 const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
-  console.log('重新渲染scroll')
   const [bScroll, setBScroll] = useState<any>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -74,8 +73,10 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
   let pullUpDebounce = useMemo (() => {
     return debounce (pullUp, 300)
   }, [pullUp]);
-  // 千万注意，这里不能省略依赖，
-  // 不然拿到的始终是第一次 pullUp 函数的引用，相应的闭包作用域变量都是第一次的，产生闭包陷阱。下同。
+
+  let pullDownDebounce = useMemo(() => {
+    return debounce(pullDown, 500)
+  }, [pullDown]);
 
   useEffect(() => {
     if (bScroll) return;
@@ -90,61 +91,66 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
       },
     });
     setBScroll(scroll);
-    if (pullUp) {
-      scroll.on('scrollEnd', () => {
-        //判断是否滑动到了底部
-        if (scroll.y <= scroll.maxScrollY + 100) {
-          pullUpDebounce();
-        }
-      });
-    }
-    if (pullDown) {
-      scroll.on('touchEnd', (pos: any) => {
-        //判断用户的下拉动作
-        if (pos.y > 50) {
-          debounce(pullDown, 0)();
-        }
-      });
-    }
-
-    if (onScroll) {
-      scroll.on('scroll', (scroll: number) => {
-        onScroll(scroll);
-      });
-    }
-
-    if (refresh) {
-      scroll.refresh();
-    }
     return () => {
-      scroll.off('scroll');
-      setBScroll(null);
-    };
-    // eslint-disable-next-line
-  }, []);
+      setBScroll(null)
+    }
+  }, [])
+
 
   useEffect(() => {
-    if (refresh && bScroll) {
+    if(!bScroll || !onScroll) return;
+    bScroll.on('scroll', onScroll)
+    return () => {
+      bScroll.off('scroll', onScroll);
+    }
+  }, [onScroll, bScroll]);
+
+  useEffect(() => {
+    if(!bScroll || !pullUp) return;
+    const handlePullUp = () => {
+      //判断是否滑动到了底部
+      if(bScroll.y <= bScroll.maxScrollY + 100){
+        pullUpDebounce();
+      }
+    };
+    bScroll.on('scrollEnd', handlePullUp);
+    return () => {
+      bScroll.off('scrollEnd', handlePullUp);
+    }
+  }, [pullUp, pullUpDebounce, bScroll]);
+
+  useEffect(() => {
+    if(!bScroll || !pullDown) return;
+    const handlePullDown = (pos:any) => {
+      //判断用户的下拉动作
+      if(pos.y > 50) {
+        pullDownDebounce();
+      }
+    };
+    bScroll.on('touchEnd', handlePullDown);
+    return () => {
+      bScroll.off('touchEnd', handlePullDown);
+    }
+  }, [pullDown, pullDownDebounce, bScroll]);
+
+  useEffect(() => {
+    if(refresh && bScroll){
       bScroll.refresh();
     }
   });
 
   useImperativeHandle(ref, () => ({
     refresh() {
-      if (bScroll) {
+      if(bScroll) {
         bScroll.refresh();
         bScroll.scrollTo(0, 0);
       }
     },
-    scrollTo(x: number, y: number) {
-      if (bScroll) {
-        bScroll.refresh();
-        bScroll.scrollTo(x, y);
-      }
-    },
     getBScroll() {
-      return bScroll;
-    },
+      if(bScroll) {
+        return bScroll;
+      }
+    }
   }));
 
   const PullUpdisplayStyle = pullUpLoading

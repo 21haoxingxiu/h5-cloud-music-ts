@@ -1,5 +1,5 @@
 export const CHANGE_SINGER_LIST = 'singers/CHANGE_SINGER_LIST';
-export const CHANGE_PAGE_COUNT = 'singers/PAGE_COUNT';
+export const CHANGE_LIST_OFFSET = 'singers/CHANGE_LIST_OFFSET';
 export const CHANGE_CATOGORY = 'singers/CHANGE_CATOGORY';
 export const CHANGE_ALPHA = 'singers/CHANGE_ALPHA';
 export const CHANGE_ENTER_LOADING = 'singers/ENTER_LOADING';

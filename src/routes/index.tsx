@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { lazy, Suspense } from "react";
 import { Redirect } from 'react-router-dom';
 import Login from 'containers/User/Login';
 import BlankLayout from 'layouts/BlankLayout';
 import HomeLayout from 'layouts/HomeLayout';
 
 import Recommend from 'containers/Recommend';
-import Singer from 'containers/Singers';
+// import Singer from 'containers/Singers';
 import Album from 'containers/Album';
 import { RouteConfig } from 'react-router-config';
+
+const SuspenseComponent = (Component:any) => (props:any) => {
+  return (
+    <Suspense fallback={null}>
+      <Component {...props}></Component>
+    </Suspense>
+  )
+}
+
+
+const SingersComponent = lazy(() => import("../containers/Singers/"));
+const SingerComponent = lazy(() => import("../containers/Singer"));
+
 
 const routes: RouteConfig[] = [
   {
@@ -50,7 +63,13 @@ const routes: RouteConfig[] = [
           {
             path: '/singers',
             key: 'singers',
-            component: Singer
+            component: SuspenseComponent(SingersComponent),
+            routes: [
+              {
+                path: "/singers/:id",
+                component: SuspenseComponent(SingerComponent)
+              },
+            ]            
           },
         ],
       },

@@ -39,10 +39,11 @@ export const changeSingerList = (data:any):changeSingerListType => ({
   data
 })
 
-export const changePageCount = (data:number) => ({
-  type: actionTypes.CHANGE_PAGE_COUNT,
+
+export const changeListOffset = (data: any) => ({
+  type: actionTypes.CHANGE_LIST_OFFSET,
   data
-})
+});
 
 
 
@@ -70,7 +71,7 @@ export const getHotSingerList = () => {
       dispatch(changeSingerList(data));
       dispatch(changeEnterLoading(false));
       dispatch(changePullDownLoading(false));
-      // dispatch(changePageCount(data.length));
+      dispatch(changeListOffset(data.length));
     }).catch(() => {
       console.log('热门歌手数据获取失败');
     })
@@ -79,12 +80,13 @@ export const getHotSingerList = () => {
 
 export const refreshMoreHotSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const offset = getState().singers.pageCount;
+    const offset = getState().singers.listOffset;
     const singerList = getState().singers.singerList;
     getHotSingerListRequest(offset).then((res:any) => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
       dispatch(changePullUpLoading(false));
+      dispatch(changeListOffset(data.length));
     }).catch(() => {
       console.log('热门歌手数据获取失败');
     });
@@ -93,7 +95,7 @@ export const refreshMoreHotSingerList = () => {
 
 export const getSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const offset = getState().singers.pageCount;
+    const offset = getState().singers.listOffset;
     const category = getState().singers.category;
     const alpha = getState().singers.alpha;
     getSingerListRequest(category, alpha, offset).then((res:any) => {
@@ -101,6 +103,7 @@ export const getSingerList = () => {
       dispatch(changeSingerList(data));
       dispatch(changeEnterLoading(false));
       dispatch(changePullDownLoading(false));
+      dispatch(changeListOffset(data.length));
     }).catch(() => {
       console.log('歌手数据获取失败');
     });
@@ -110,7 +113,7 @@ export const getSingerList = () => {
 
 export const refreshMoreSingerList = () => {
   return (dispatch:any, getState:any) => {
-    const offset = getState().singers.pageCount;
+    const offset = getState().singers.listOffset;
     const category = getState().singers.category;
     const alpha = getState().singers.alpha;
     const singerList = getState().singers.singerList;
@@ -118,6 +121,7 @@ export const refreshMoreSingerList = () => {
       const data = [...singerList, ...res.artists];
       dispatch(changeSingerList(data));
       dispatch(changePullUpLoading(false));
+      dispatch(changeListOffset(data.length));
     }).catch(() => {
       console.log('歌手数据获取失败');
     });
