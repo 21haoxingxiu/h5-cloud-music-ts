@@ -10,12 +10,14 @@ import recommendReducer from '../containers/Recommend/store/reducer';
 import albumReducer from '../containers/Album/store/reducer';
 import playerReducer from '../containers/Player/store/reducer';
 import userReducer from '../containers/User/Login/store/reducer';
-import singereducer from '../containers/Singers/store/reducer'
+import singersreducer from '../containers/Singers/store/reducer'
+import singerreducer from '../containers/Singers/store/reducer'
 
 export const rootReducer = combineReducers({
   recommend: recommendReducer,
   album: albumReducer,
   player: playerReducer,
   user: userReducer,
-  singers: singereducer
+  singers: singersreducer,
+  singer: singerreducer
 });

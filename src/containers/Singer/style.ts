@@ -7,7 +7,6 @@
  */ 
 
 import styled from 'styled-components';
-import style from '../../assets/globalStyle'
 
 export const Container = styled.div`
   position: fixed;
