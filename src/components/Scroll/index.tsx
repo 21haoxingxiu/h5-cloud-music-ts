@@ -53,6 +53,10 @@ interface ScrollProps {
   children?: React.ReactNode;
 }
 
+/* 解决 songScroll.current!.refresh 的报错问题 */
+export interface IScroll {
+  refresh: () => void;
+}
 
 const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
   const [bScroll, setBScroll] = useState<any>(null);
@@ -95,6 +99,8 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
       setBScroll(null)
     }
   }, [])
+  /* 加上之后 就陷入死循环了 */
+  // [bScroll, direction, click, bounceTop, bounceBottom]
 
 
   useEffect(() => {

@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import Horizen from '../../components/HorizenItem';
 import { SingerStateType } from './store/data'
 import { categoryTypes, alphaTypes } from '../../api/config';
+import { IScroll } from "components/Scroll";
 import { 
   NavContainer,
   ListContainer,
   List,
-  ListItem,
-  EnterLoading
+  ListItem
 } from "./style";
+import { EnterLoading } from '../../App.style'
 import {
   RouteConfig,
   renderRoutes
@@ -43,7 +44,7 @@ interface singerTypeProp extends SingerStateType,RouteConfig {
 
 
 function Singers(props:singerTypeProp) {
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<IScroll>(null);
   const [ category, setCategory ] = useState('')
   const [ alpha, setAlpha ] = useState('')
   
@@ -61,13 +62,13 @@ function Singers(props:singerTypeProp) {
   const handleUpdateCategory = (val:string):void => {
     if(category === val) return
     updateCategoryDispatch(val);
-    // scrollRef.current!.refresh();   ???? 
+    scrollRef.current!.refresh(); 
     setCategory(val)
   }
   const handleUpdateAlpha = (val:string):void => {
     if(alpha === val) return
     updateAlphaDispatch(val);
-    // scrollRef.current!.refresh();    
+    scrollRef.current!.refresh();    
     setAlpha(val)
   }  
   const handlePullUp = () => {
