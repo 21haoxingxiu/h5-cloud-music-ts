@@ -4,9 +4,7 @@ import Login from 'containers/User/Login';
 import BlankLayout from 'layouts/BlankLayout';
 import HomeLayout from 'layouts/HomeLayout';
 
-import Recommend from 'containers/Recommend';
 // import Singer from 'containers/Singers';
-import Album from 'containers/Album';
 import { RouteConfig } from 'react-router-config';
 
 const SuspenseComponent = (Component:any) => (props:any) => {
@@ -18,8 +16,11 @@ const SuspenseComponent = (Component:any) => (props:any) => {
 }
 
 
+const RecommendComponent = lazy(() => import("../containers/Recommend/"));
 const SingersComponent = lazy(() => import("../containers/Singers/"));
 const SingerComponent = lazy(() => import("../containers/Singer"));
+const AlbumComponent = lazy(() => import("../containers/Album"));
+const RankComponent = lazy(() => import("../containers/Rank"));
 
 
 const routes: RouteConfig[] = [
@@ -51,12 +52,12 @@ const routes: RouteConfig[] = [
           {
             path: '/recommend',
             key: 'recommend',
-            component: Recommend,
+            component: SuspenseComponent(RecommendComponent),
             routes: [
               {
                 path: '/recommend/:id',
                 exact: true,
-                component: Album,
+                component: SuspenseComponent(AlbumComponent),
               },
             ],
           },
@@ -71,6 +72,17 @@ const routes: RouteConfig[] = [
               },
             ]            
           },
+          {
+            path: "/rank",
+            component: SuspenseComponent(RankComponent),
+            key: "rank",
+            routes: [
+              {
+                path: "/rank/:id",
+                component: SuspenseComponent(AlbumComponent)
+              }
+            ]
+          },          
         ],
       },
     ],

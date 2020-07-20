@@ -1,3 +1,10 @@
+/*
+ * @Description: new file
+ * @Autor: zhan
+ * @Date: 2020-06-09 08:36:40
+ * @LastEditors: zhan
+ * @LastEditTime: 2020-07-20 13:41:19
+ */ 
 import * as actionTypes from './constants';
 import request from 'utils/request';
 

@@ -1,9 +1,15 @@
+/*
+ * @Description: new file
+ * @Autor: zhan
+ * @Date: 2020-06-09 08:36:40
+ * @LastEditors: zhan
+ * @LastEditTime: 2020-07-20 13:33:50
+ */ 
 import {
   CHANGE_CURRENT_ALBUM,
   CHANGE_LOADING,
   CHANGE_PULL_UP_LOADING,
 } from './constants';
-// import {axiosInstance} from 'utils/request';
 import { getRecommendListDetailRequest } from './services';
 
 export const changeCurrentAlbum = (data: any) => ({
@@ -21,20 +27,9 @@ export const changeLoading = (data: boolean) => ({
   data,
 });
 export const getAlbumList = (id: number, fromURL: string) => {
-  let request: any;
-  switch (fromURL) {
-    case '/recommend':
-      request = getRecommendListDetailRequest;
-      break;
-    case '/rank':
-      // request = getRankListDetailRequest;
-      break;
-    default:
-      request = getRecommendListDetailRequest;
-  }
   return (dispatch: any) => {
     dispatch(changeLoading(true));
-    request(id)
+    getRecommendListDetailRequest(id)
       .then((res: any) => {
         dispatch(changeLoading(false));
         let data = res.playlist;

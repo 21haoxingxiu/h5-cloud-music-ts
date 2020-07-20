@@ -140,7 +140,6 @@ function Player(props: any) {
     // console.log('currentTime', currentTime)
     if (!scrollRef.current) return;
     let bScroll = scrollRef.current!.getBScroll();
-    console.log('index', currentLyricIndex);
     if (currentLyricIndex > 5) {
       let lineEl = lyricLineRefs.current[currentLyricIndex - 5];
       bScroll.scrollToElement(lineEl, 1000);
@@ -184,8 +183,7 @@ function Player(props: any) {
   }, []);
 
   useEffect(() => {
-    const { lyricArray, tlyricArray } = sortFunc(lyrics);
-    console.log(lyricArray, tlyricArray);
+    const { lyricArray } = sortFunc(lyrics);
     setLyricArray(lyricArray);
   }, [lyrics, sortFunc]);
 

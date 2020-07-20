@@ -81,7 +81,6 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
   let pullDownDebounce = useMemo(() => {
     return debounce(pullDown, 500)
   }, [pullDown]);
-
   useEffect(() => {
     if (bScroll) return;
     const scroll = new BScroll(scrollContainerRef.current!, {
@@ -98,6 +97,7 @@ const Scroll = forwardRef<any, ScrollProps>((props, ref) => {
     return () => {
       setBScroll(null)
     }
+    // eslint-disable-next-line
   }, [])
   /* 加上之后 就陷入死循环了 */
   // [bScroll, direction, click, bounceTop, bounceBottom]
