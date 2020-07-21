@@ -17,7 +17,7 @@ function Home(props: RouteConfig) {
         <span className='title'>云音悦</span>
         <span
           className='iconfont search'
-          onClick={() => props.history.push('/search')}
+          onClick={() => alert('搜索正在开发中，敬请期待:)')}
         >
           &#xe615;
         </span>
