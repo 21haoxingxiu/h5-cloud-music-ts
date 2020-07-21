@@ -3,7 +3,7 @@
  # @Autor: zhan
  # @Date: 2020-07-20 14:07:55
  # @LastEditors: zhan
- # @LastEditTime: 2020-07-21 19:19:28
+ # @LastEditTime: 2020-07-21 19:33:38
 ### 
 # 当发生错误时中止脚本
 set -e
@@ -23,6 +23,8 @@ git commit -m 'deploy'
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f https://github.com/21haoxingxiu/h5-cloud-music-ts.git gh-pages
+git push
+
 git subtree push --prefix=build origin gh-pages
 
 cd -
