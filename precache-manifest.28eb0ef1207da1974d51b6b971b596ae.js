@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d7cf8629641c3e1c06b8a8fbcb05e0f4",
+    "revision": "4e197f8b5887f9af4982d77e63fa5d06",
     "url": "/html/cloud-music/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/html/cloud-music/static/css/4.09700f6a.chunk.css"
   },
   {
-    "revision": "a00d22525ac2a2d04785",
+    "revision": "b362cb47f4a86dafaf97",
     "url": "/html/cloud-music/static/css/main.b05ef64b.chunk.css"
   },
   {
@@ -44,8 +44,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/html/cloud-music/static/js/8.bac47c7e.chunk.js"
   },
   {
-    "revision": "a00d22525ac2a2d04785",
-    "url": "/html/cloud-music/static/js/main.555a99c2.chunk.js"
+    "revision": "b362cb47f4a86dafaf97",
+    "url": "/html/cloud-music/static/js/main.d1e7feac.chunk.js"
   },
   {
     "revision": "3af00d23673a21147302",
