@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
-export const baseUrl = 'https://uglyspoon.com/api/netease/';
+export const baseUrl = 'https://api.mtnhao.com/';
 
 axios.defaults.baseURL = baseUrl;
 // axios.defaults.headers.common['Authorization'] = cookie.get('token');
@@ -19,8 +19,8 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use(
-  res => res.data,
-  err => {
+  (res) => res.data,
+  (err) => {
     console.log(err, '网络错误');
   }
 );
@@ -39,20 +39,20 @@ const request = ({
     method,
     ...rest,
   })
-    .then(function(response: AxiosResponse) {
+    .then(function (response: AxiosResponse) {
       // handle success
       return response;
     })
-    .then(function(response: AxiosResponse) {
+    .then(function (response: AxiosResponse) {
       if (response.status === 200) {
         return response.data;
       }
     })
-    .catch(function(error: any) {
+    .catch(function (error: any) {
       // handle error
       handleError(error.response);
     })
-    .finally(function() {
+    .finally(function () {
       // always executed
     });
 };

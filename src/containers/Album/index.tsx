@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState, } from 'react';
-import { withRouter, } from 'react-router-dom';
+import React, { useRef, useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { Container } from './styles';
 import Header from 'components/Header';
 import Scroll from 'components/Scroll';
 import style from 'assets/globalStyle';
-import { HEADER_HEIGHT } from 'utils/config';
+import { HEADER_HEIGHT } from 'api/config';
 import { RouteConfigComponentProps } from 'react-router-config';
 import AlbumDetail from 'components/AlbumDetail';
 import * as actionTypes from './store/actionCreators';

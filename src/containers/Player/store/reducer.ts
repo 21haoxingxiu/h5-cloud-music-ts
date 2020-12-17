@@ -1,5 +1,5 @@
 import * as actionTypes from './constants';
-import { playMode } from 'utils/config';
+import { playMode } from 'api/config';
 import { findIndex } from 'utils';
 import produce from 'immer';
 
@@ -74,7 +74,7 @@ const handleDeleteSong = (state: any, song: any) => {
 };
 
 export default (state = defaultState, action: any) => {
-  return produce(state, draft => {
+  return produce(state, (draft) => {
     switch (action.type) {
       case actionTypes.SET_CURRENT_SONG:
         draft.currentSong = action.data;

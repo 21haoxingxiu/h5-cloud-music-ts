@@ -1,4 +1,4 @@
-// import { HEADER_HEIGHT } from 'utils/config';
+// import { HEADER_HEIGHT } from 'api/config';
 import styled, { keyframes } from 'styled-components';
 import style from 'assets/globalStyle';
 

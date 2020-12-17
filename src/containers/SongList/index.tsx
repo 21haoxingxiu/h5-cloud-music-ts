@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SongList, SongItem } from './styles';
 import { getName } from 'utils/index';
-import { ONE_PAGE_COUNT } from 'utils/config';
+import { ONE_PAGE_COUNT } from 'api/config';
 import { connect } from 'react-redux';
 import {
   changePlayList,
@@ -63,7 +63,7 @@ const SongsList = React.forwardRef((props: SongListProps, refs) => {
       if (i >= list.length) break;
       let item = list[i];
       res.push(
-        <li key={item.id} onClick={e => selectItem(e, i)}>
+        <li key={item.id} onClick={(e) => selectItem(e, i)}>
           <span className='index'>{i + 1}</span>
           <div className='info'>
             <span>{item.name}</span>
@@ -92,7 +92,7 @@ const SongsList = React.forwardRef((props: SongListProps, refs) => {
   return (
     <SongList ref={refs as any} showBackground={showBackground}>
       <div className='first_line'>
-        <div className='play_all' onClick={e => selectItem(e, 0)}>
+        <div className='play_all' onClick={(e) => selectItem(e, 0)}>
           <i className='iconfont'>&#xe73d;</i>
           <span>
             播放全部 <span className='sum'>(共{totalCount}首)</span>

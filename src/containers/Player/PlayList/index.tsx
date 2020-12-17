@@ -21,7 +21,7 @@ import {
   changePlayList,
   changePlayingState,
 } from './../store/actionCreators';
-import { playMode } from 'utils/config';
+import { playMode } from 'api/config';
 import { prefixStyle } from 'utils';
 import Confirm from 'components/Confirm';
 import { AppState } from 'store';
@@ -154,10 +154,10 @@ function PlayList(props: any) {
       <div>
         <i
           className='iconfont'
-          onClick={e => changeMode(e)}
+          onClick={(e) => changeMode(e)}
           dangerouslySetInnerHTML={{ __html: content }}
         ></i>
-        <span className='text' onClick={e => changeMode(e)}>
+        <span className='text' onClick={(e) => changeMode(e)}>
           {text}
         </span>
       </div>
@@ -203,7 +203,7 @@ function PlayList(props: any) {
         <div
           className='list_wrapper'
           ref={listWrapperRef as any}
-          onClick={e => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -237,7 +237,7 @@ function PlayList(props: any) {
                       <span className='like'>{getFavoriteIcon(item)}</span>
                       <span
                         className='delete'
-                        onClick={e => handleDeleteSong(e, item)}
+                        onClick={(e) => handleDeleteSong(e, item)}
                       >
                         <i className='iconfont'>&#xe626;</i>
                       </span>

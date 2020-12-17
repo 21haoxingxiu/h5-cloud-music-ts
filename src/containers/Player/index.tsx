@@ -34,7 +34,7 @@ import {
 import animations from 'create-keyframe-animation';
 import ProgressBar from 'components/ProgressBar';
 import PlayList from './PlayList';
-import { playMode } from 'utils/config';
+import { playMode } from 'api/config';
 import Toast from 'components/Toast';
 import moment from 'moment';
 import Scroll from 'components/Scroll';
@@ -52,7 +52,7 @@ function formatTimeToMillionSeconds(time: string) {
   return min * 60 + seconds * 1 + millionSec / 1000;
 }
 function findIndexOfLyric(array: iLyricItemProps[], time: number): number {
-  return array.findIndex(item => item.time > time);
+  return array.findIndex((item) => item.time > time);
 }
 
 function Player(props: any) {
@@ -151,7 +151,7 @@ function Player(props: any) {
     // }
   }, [currentLyricIndex]);
 
-  const sortFunc = useCallback(lyrics => {
+  const sortFunc = useCallback((lyrics) => {
     const { lyric, tlyric }: { lyric: string; tlyric: string } = lyrics;
     // console.log('lyric', lyric)
     let lyricArray: iLyricItemProps[] | null = [];
@@ -160,7 +160,7 @@ function Player(props: any) {
     if (lyric) {
       // lyricArray = lyric.match(pattern) || []
       let lyricArray_temp = lyric.match(pattern) || [];
-      lyricArray = lyricArray_temp.map(item => {
+      lyricArray = lyricArray_temp.map((item) => {
         const ary = item.split(']');
         return {
           time: formatTimeToMillionSeconds(ary[0].slice(1)),
@@ -170,7 +170,7 @@ function Player(props: any) {
     }
     if (tlyric) {
       let tlyricArray_temp = tlyric.match(pattern) || [];
-      tlyricArray = tlyricArray_temp.map(item => {
+      tlyricArray = tlyricArray_temp.map((item) => {
         const ary = item.split(']');
         return { time: ary[0].slice(1), lyric: ary[1] };
       });
@@ -395,8 +395,8 @@ function Player(props: any) {
                       <li
                         className={
                           idx !== lyricArray.length - 1 &&
-                            currentTime < lyricArray[idx + 1].time &&
-                            el.time < currentTime
+                          currentTime < lyricArray[idx + 1].time &&
+                          el.time < currentTime
                             ? 'current'
                             : ''
                         }
@@ -410,19 +410,19 @@ function Player(props: any) {
                 </Scroll>
               </LyricWrapper>
             ) : (
-                <div className='cdContainer'>
-                  <CDWrapper ref={cdWrapperRef as any}>
-                    <div className='cd'>
-                      <img
-                        ref={cdImageRef as any}
-                        className={`image play ${playing ? '' : 'pause'}`}
-                        src={song.al.picUrl + '?param=400x400'}
-                        alt=''
-                      />
-                    </div>
-                  </CDWrapper>
-                </div>
-              )}
+              <div className='cdContainer'>
+                <CDWrapper ref={cdWrapperRef as any}>
+                  <div className='cd'>
+                    <img
+                      ref={cdImageRef as any}
+                      className={`image play ${playing ? '' : 'pause'}`}
+                      src={song.al.picUrl + '?param=400x400'}
+                      alt=''
+                    />
+                  </div>
+                </CDWrapper>
+              </div>
+            )}
           </Middle>
           <Bottom className='bottom'>
             <ProgressWrapper>
@@ -448,7 +448,7 @@ function Player(props: any) {
               <div className='icon i-center'>
                 <i
                   className='iconfont'
-                  onClick={e => clickPlaying(e, !playing)}
+                  onClick={(e) => clickPlaying(e, !playing)}
                   dangerouslySetInnerHTML={{
                     __html: playing ? '&#xe609;' : '&#xe654;',
                   }}
@@ -481,7 +481,7 @@ function Player(props: any) {
         onEnter={() => (miniPlayerRef.current!.style.display = 'flex')}
         onExited={() => (miniPlayerRef.current!.style.display = 'none')}
       >
-        <MiniPlayer ref={miniPlayerRef as any} onClick={e => setFull(true)}>
+        <MiniPlayer ref={miniPlayerRef as any} onClick={(e) => setFull(true)}>
           <div className='icon'>
             <div className='imgWrapper' ref={miniWrapperRef as any}>
               <img
@@ -503,23 +503,23 @@ function Player(props: any) {
               {playing ? (
                 <i
                   className='icon-mini iconfont icon-pause'
-                  onClick={e => clickPlaying(e, false)}
+                  onClick={(e) => clickPlaying(e, false)}
                 >
                   &#xe609;
                 </i>
               ) : (
-                  <i
-                    className='icon-mini iconfont icon-play'
-                    onClick={e => clickPlaying(e, true)}
-                  >
-                    &#xe654;
+                <i
+                  className='icon-mini iconfont icon-play'
+                  onClick={(e) => clickPlaying(e, true)}
+                >
+                  &#xe654;
                 </i>
-                )}
+              )}
             </ProgressCircle>
           </div>
           <div
             className='control'
-            onClick={e => {
+            onClick={(e) => {
               togglePlayListDispatch(true);
               e.stopPropagation();
             }}
@@ -585,7 +585,4 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 // 将ui组件包装成容器组件
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(React.memo(Player));
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Player));

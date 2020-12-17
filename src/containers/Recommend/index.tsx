@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { Content } from './styles';
 import Slider from 'components/Slider';
 import { bannerType } from 'components/Slider';
-import {
-  renderRoutes,
-  RouteConfig,
-} from 'react-router-config';
+import { renderRoutes, RouteConfig } from 'react-router-config';
 import RecommendList from 'components/List';
 import { forceCheck } from 'react-lazyload';
 import * as actionTypes from './store/actionCreators';
@@ -48,6 +45,7 @@ const Recommend: React.FC<RecommendProps> = ({
   }, []);
   return (
     <Content>
+      {/* <div className='before'></div> */}
       <Scroll onScroll={() => forceCheck()}>
         <div>
           <Slider bannerList={bannerList} />
@@ -68,7 +66,6 @@ const Recommend: React.FC<RecommendProps> = ({
 const mapStateToProps = (state: any) => ({
   bannerList: state.recommend.bannerList,
   recommendList: state.recommend.recommendList,
-  // songsCount: state.recommend.recommendList,
   enterLoading: state.recommend.enterLoading,
 });
 // 映射dispatch到props上
@@ -83,7 +80,8 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-// 将ui组件包装成容器组件
+// 每个组件都应用 memo 包裹，使得 React 在更新组件之前进行 props 的比对，若 props 不变则不对组件更新，减少不必要的重渲染
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
